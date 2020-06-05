@@ -3,6 +3,10 @@ public class TicTacToeClass {
     private char[][] board;
     private int turns;
 
+    private char p;
+    private int r;
+    private int c;
+
     // Constructors
     public TicTacToeClass() {
         board = new char[3][3];
