@@ -20,15 +20,37 @@ public class TicTacToeClass {
     // Accessor Methods
 
     public boolean isWinner(char p) {
-        return false;
+        for (int r = 0; r < 3; r++) {
+            if (p == board[r][0] && p == board[r][1] && p == board[r][2])
+                return true;
+        }
+        for (int c = 0; c < 3; c++) {
+            if (p == board[0][c] && p == board[1][c] && p == board[2][c])
+                return true;
+        }
+        if (p == board[0][2] && board[0][2] == board[1][1] && board[1][1] == board[2][0]) {
+            return true;
+        } else if (p == board[0][0] && board[0][0] == board[1][1] && board[1][1] == board[2][2]) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public boolean isFull() {
-        return false;
+        if (turns >= 9) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public boolean isCat() {
-        return false;
+        if (isFull() && !isWinner('X') && !isWinner('O')) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public boolean isValid(int r, int c) {
@@ -49,6 +71,15 @@ public class TicTacToeClass {
             return '@';
     }
 
+    public int computerRowChoice() {
+        int choice = (int) (Math.random() * 3);
+        return choice;
+    }
+
+    public int computerColumnChoice() {
+        return (int) (Math.random() * 3);
+    }
+
     public void displayBoard() {
         System.out.println("");
         System.out.println("     0 1 2 ");
@@ -64,6 +95,7 @@ public class TicTacToeClass {
     // Modifiers
     public void playMove(char p, int r, int c) {
         this.board[r][c] = p;
+        turns++;
     }
 
 }

@@ -16,44 +16,68 @@ public class TicTacToeGame {
         Thread.sleep(2000);
         System.out.println("Let's get started!");
 
-        Thread.sleep(1000);
-        game.displayBoard();
-
         do {
-            // TODO: make sure computer cannot place turn in same place that user did or
-            // vice versa
-            // TODO: winner method
-            // TODO: game over when board full
-            // TODO: confirm everything in test file
+            Thread.sleep(1000);
+            game.displayBoard();
+
             Thread.sleep(1000);
             System.out.println("Please enter the row you would like to place your X");
             int rowChoice = scan.nextInt();
 
             System.out.println("Please enter the column you would like to place your X");
-            int coloumnChoice = scan.nextInt();
+            int columnChoice = scan.nextInt();
 
-            if (game.isValid(rowChoice, coloumnChoice) == false) {
+            if (game.isValid(rowChoice, columnChoice) == false) {
                 System.out.println("Please enter a valid choice");
                 continue;
+            } else if (game.playerAt(rowChoice, columnChoice) != ' ') {
+                System.out.println("Please pick an empty location");
+                continue;
+            } else if (game.isValid(rowChoice, columnChoice) == true) {
+                game.playMove('X', rowChoice, columnChoice);
+            }
 
-            } else if (game.isValid(rowChoice, coloumnChoice) == true) {
-                game.playMove('X', rowChoice, coloumnChoice);
+            Thread.sleep(500);
+            game.displayBoard();
+
+            if (game.isWinner('X') == true) {
+                System.out.println("Congradulations! You won!");
+                System.out.println("Would you like to play again? Y/N");
+                String tryAgain = scan.next();
+                if (tryAgain.charAt(0) == 'y' || tryAgain.charAt(0) == 'Y') {
+                    continue; // TODO: reset board
+                } else {
+                    break;
+                }
             }
 
             Thread.sleep(1000);
-            game.displayBoard();
-
             System.out.println("Computer's turn!");
 
-            game.playMove('O', (int) (Math.random() * 3), (int) (Math.random() * 3));
-            Thread.sleep(1000);
-            game.displayBoard();
+            // trying to keep computer from chosing a spot that's already taken, not sure
+            // how to implement
+            if (game.playerAt(game.computerRowChoice(), game.computerColumnChoice()) == ' ') {
+                game.playMove('O', game.computerRowChoice(), game.computerColumnChoice());
+            } else if (game.playerAt(game.computerRowChoice(), game.computerColumnChoice()) != ' ') {
+                continue;
+            }
 
-            if (game.isFull() == true) {
+            if (game.isWinner('O') == true) {
+                System.out.println("Sorry, you lost... :(");
+                System.out.println("Want to try again? Y/N");
+                String tryAgain = scan.next();
+                if (tryAgain.charAt(0) == 'y' || tryAgain.charAt(0) == 'Y') {
+                    continue; // TODO: reset board
+                } else {
+                    break;
+                }
+            }
+
+            if (game.isCat() == true) {
                 Thread.sleep(1000);
                 System.out.println("Game over! Board is full.");
                 System.out.println("Would you like to play again? Y/N");
-                String tryAgain = scan.nextLine();
+                String tryAgain = scan.next();
                 if (tryAgain.charAt(0) == 'y' || tryAgain.charAt(0) == 'Y') {
                     continue; // TODO: reset board
                 } else {
